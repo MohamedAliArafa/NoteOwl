@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">NoteOwl</string>
+    <string name="action_settings">Settings</string>
+    <string name="pick_time">Pick Time</string>
+    <string name="pick_date">Pick Date</string>
+    <string name="action_clear">clear</string>
+</resources>
