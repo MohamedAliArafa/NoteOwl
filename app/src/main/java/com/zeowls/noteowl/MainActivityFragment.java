@@ -12,18 +12,21 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -56,7 +59,7 @@ public class MainActivityFragment extends Fragment implements View.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_main, container, false);
+        final View v = inflater.inflate(R.layout.fragment_main, container, false);
         setHasOptionsMenu(true);
 //        timePickerButton = (Button) v.findViewById(R.id.time_picker_btn);
 //        datePickerButton = (Button) v.findViewById(R.id.date_picker_btn);
@@ -71,6 +74,14 @@ public class MainActivityFragment extends Fragment implements View.OnClickListen
         cursorAdapter = new SimpleCursorAdapter(getActivity(),
                 android.R.layout.simple_list_item_2, c, mColumns, new int[]{android.R.id.text1, android.R.id.text2});
         mListView.setAdapter(cursorAdapter);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.d("Main", "Hello");
+                TextView tv = (TextView) view.findViewById(android.R.id.text2);
+                tv.setText("Clicked: " + tv.getText());
+            }
+        });
         db.close();
         return v;
     }
