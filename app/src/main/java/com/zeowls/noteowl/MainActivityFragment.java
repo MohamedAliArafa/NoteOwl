@@ -1,17 +1,10 @@
 package com.zeowls.noteowl;
 
-import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.Fragment;
-import android.app.TimePickerDialog;
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.annotation.NonNull;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,21 +13,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CursorAdapter;
-import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.zeowls.noteowl.provider.Contract;
 import com.zeowls.noteowl.provider.DBHelper;
-
-import java.util.Calendar;
-import java.util.Date;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -61,6 +46,7 @@ public class MainActivityFragment extends Fragment implements View.OnClickListen
                              Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.fragment_main, container, false);
         setHasOptionsMenu(true);
+
 //        timePickerButton = (Button) v.findViewById(R.id.time_picker_btn);
 //        datePickerButton = (Button) v.findViewById(R.id.date_picker_btn);
 //        datePicker = (DatePicker) v.findViewById(R.id.date_picker);

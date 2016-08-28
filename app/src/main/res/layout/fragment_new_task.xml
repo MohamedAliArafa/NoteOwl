@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="What is to be done?"
+        android:textColor="#212121"
         android:id="@+id/textView"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -32,6 +33,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/editText"
             android:hint="Enter Task Here"
+            android:textColorHint="#757575"
             android:layout_weight="6" />
 
         <ImageView
@@ -39,7 +41,7 @@
             android:layout_height="match_parent"
             android:id="@+id/imageView"
             android:padding="5dp"
-            android:src="@android:drawable/presence_audio_busy"
+            android:src="@drawable/ic_action_action_settings_voice"
             android:layout_weight="1"
             android:layout_gravity="center"/>
     </LinearLayout>
@@ -49,27 +51,48 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Date"
+        android:textColor="#212121"
         android:id="@+id/textView2"
         android:layout_below="@+id/linearLayout"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="16dp" />
-
-    <EditText
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editText2"
         android:layout_below="@+id/textView2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:hint="Date not set" />
+        android:id="@+id/linearLayout2"
+        >
+
+        <EditText
+            android:layout_weight="6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText2"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:hint="Date not set"
+            android:textColorHint="#757575"/>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/imageView2"
+            android:padding="5dp"
+            android:src="@android:drawable/ic_menu_today"
+            android:layout_weight="1"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Task details"
+        android:textColor="#212121"
         android:id="@+id/textView3"
-        android:layout_below="@+id/editText2"
+        android:layout_below="@+id/linearLayout2"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="16dp"
@@ -84,13 +107,15 @@
         android:layout_below="@+id/textView3"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:hint="Write your task details here" />
+        android:hint="Write your task details here"
+        android:textColorHint="#757575"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Add to List"
+        android:textColor="#212121"
         android:id="@+id/textView4"
         android:layout_below="@+id/editText3"
         android:layout_alignParentLeft="true"
