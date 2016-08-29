@@ -158,7 +158,7 @@ public class TestDb extends AndroidTestCase {
         // the Task. Make sure to cover as many failure cases as you can.
         long listRowId = insertlist();
         // Instead of rewriting all of the code we've already written in testlistTable
-        // we can move this code to insertlist and then call insertlist from both
+        // we can move this code to insertList and then call insertList from both
         // tests. Why move it? We need the code to return the ID of the inserted list
         // and our testListTable can only return void because it's a test.
 

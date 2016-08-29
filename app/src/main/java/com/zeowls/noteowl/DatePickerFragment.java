@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.widget.DatePicker;
-import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -14,6 +13,7 @@ public class DatePickerFragment extends DialogFragment
         implements DatePickerDialog.OnDateSetListener {
 
     private DatePickerFragmentListener datePickerListener;
+
     public interface DatePickerFragmentListener {
         public void onDateSet(Date date);
     }
@@ -52,8 +52,7 @@ public class DatePickerFragment extends DialogFragment
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
         // Do something with the date chosen by the user
-        Toast.makeText(getActivity(), "Date:" + year + "/" + month + "/" + day, Toast.LENGTH_SHORT).show();
-        Calendar c = Calendar.getInstance();
+        Calendar c =   Calendar.getInstance();
         c.set(year, month, day);
         Date date = c.getTime();
 

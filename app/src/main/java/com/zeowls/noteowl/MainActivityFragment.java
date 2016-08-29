@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,19 +27,40 @@ import com.zeowls.noteowl.provider.DBHelper;
  */
 public class MainActivityFragment extends Fragment implements View.OnClickListener{
 
-    //    Button timePickerButton, datePickerButton;
+//    Button timePickerButton, datePickerButton;
 //    DatePicker datePicker;
 //    TimePicker timePicker;
+
+    private static final SQLiteQueryBuilder sTaskWithListNameQueryBuilder;
+
+    static{
+        sTaskWithListNameQueryBuilder = new SQLiteQueryBuilder();
+
+        //This is an inner join which looks like
+        //weather INNER JOIN location ON weather.location_id = location._id
+        sTaskWithListNameQueryBuilder.setTables(
+                Contract.TaskEntry.TABLE_NAME + " INNER JOIN " +
+                        Contract.ListEntry.TABLE_NAME +
+                        " ON " + Contract.TaskEntry.TABLE_NAME +
+                        "." + Contract.TaskEntry.COLUMN_LIST_ID +
+                        " = " + Contract.ListEntry.TABLE_NAME +
+                        "." + Contract.ListEntry._ID);
+    }
+
     ListView mListView;
     CursorAdapter cursorAdapter;
     Cursor c;
     String[] mColumns = new String[]{
             Contract.TaskEntry.COLUMN_NAME,
+            Contract.ListEntry.COLUMN_NAME,
             Contract.TaskEntry.COLUMN_IS_FINISHED,
             Contract.TaskEntry._ID
     };
 
+    SQLiteDatabase db;
+
     public MainActivityFragment() {
+
     }
 
     @Override
@@ -47,6 +69,7 @@ public class MainActivityFragment extends Fragment implements View.OnClickListen
         final View v = inflater.inflate(R.layout.fragment_main, container, false);
         setHasOptionsMenu(true);
 
+        db = new DBHelper(getActivity()).getWritableDatabase();
 //        timePickerButton = (Button) v.findViewById(R.id.time_picker_btn);
 //        datePickerButton = (Button) v.findViewById(R.id.date_picker_btn);
 //        datePicker = (DatePicker) v.findViewById(R.id.date_picker);
@@ -54,9 +77,10 @@ public class MainActivityFragment extends Fragment implements View.OnClickListen
 //        timePickerButton.setOnClickListener(this);
 //        datePickerButton.setOnClickListener(this);
         mListView = (ListView) v.findViewById(R.id.list_view);
-        testTaskTable();
+//        testTaskTable();
         SQLiteDatabase db = new DBHelper(getActivity()).getWritableDatabase();
-        c = db.query(Contract.PATH_TASKS, mColumns, null, null, null, null, null);
+        c = sTaskWithListNameQueryBuilder.query(db, null, null, null, null, null,null);
+//        c = db.query(Contract.PATH_TASKS, mColumns, null, null, null, null, null);
         cursorAdapter = new SimpleCursorAdapter(getActivity(),
                 android.R.layout.simple_list_item_2, c, mColumns, new int[]{android.R.id.text1, android.R.id.text2});
         mListView.setAdapter(cursorAdapter);
@@ -73,6 +97,14 @@ public class MainActivityFragment extends Fragment implements View.OnClickListen
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        c = sTaskWithListNameQueryBuilder.query(db, null, null, null, null, null,null);
+        cursorAdapter.swapCursor(c);
+        cursorAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void onClick(View v) {
 //        if (v == timePickerButton) {
 //            TimePickerFragment newFragment = TimePickerFragment.newInstance(this);
@@ -84,45 +116,42 @@ public class MainActivityFragment extends Fragment implements View.OnClickListen
 //        }
     }
 
-    static ContentValues createListValues() {
-        // Create a new map of values, where column names are the keys
-        ContentValues testValues = new ContentValues();
-        testValues.put(Contract.ListEntry.COLUMN_NAME, "default");
-        testValues.put(Contract.ListEntry.COLUMN_NAME, "default");
-        testValues.put(Contract.ListEntry.COLUMN_NAME, "default");
-
-        return testValues;
-    }
-
-    static ContentValues createTaskValues(long listRowId, String name) {
-        ContentValues weatherValues = new ContentValues();
-        weatherValues.put(Contract.TaskEntry.COLUMN_LIST_ID, listRowId);
-        weatherValues.put(Contract.TaskEntry.COLUMN_NAME, name);
-        return weatherValues;
-    }
-
-
-    public long insertlist() {
-        SQLiteDatabase db = new DBHelper(getActivity()).getWritableDatabase();
-        ContentValues valuesData = createListValues();
-        return db.insert(Contract.ListEntry.TABLE_NAME, null, valuesData);
-    }
-
-
-    public void testTaskTable() {
-        long listRowId = insertlist();
-        SQLiteDatabase db = new DBHelper(getActivity()).getWritableDatabase();
-        // Create ContentValues of what you want to insert
-        // (you can use the createTaskValues TestUtilities function if you wish)
-        ContentValues valuesData;
-        for (int i = 0; i <= 10; i++) {
-            valuesData = createTaskValues(listRowId, "task " + i);
-            // Insert ContentValues into database and get a row ID back
-            db.insert(Contract.TaskEntry.TABLE_NAME, null, valuesData);
-        }
-        // Query the database and receive a Cursor back
-        db.close();
-    }
+//    static ContentValues createListValues() {
+//        // Create a new map of values, where column names are the keys
+//        ContentValues testValues = new ContentValues();
+//        testValues.put(Contract.ListEntry.COLUMN_NAME, "default");
+//
+//        return testValues;
+//    }
+//
+//    static ContentValues createTaskValues(long listRowId, String name) {
+//        ContentValues weatherValues = new ContentValues();
+//        weatherValues.put(Contract.TaskEntry.COLUMN_LIST_ID, listRowId);
+//        weatherValues.put(Contract.TaskEntry.COLUMN_NAME, name);
+//        return weatherValues;
+//    }
+//
+//
+//    public long insertList() {
+//        SQLiteDatabase db = new DBHelper(getActivity()).getWritableDatabase();
+//        ContentValues valuesData = createListValues();
+//        return db.insert(Contract.ListEntry.TABLE_NAME, null, valuesData);
+//    }
+//
+//    public void testTaskTable() {
+//        long listRowId = insertList();
+//        SQLiteDatabase db = new DBHelper(getActivity()).getWritableDatabase();
+//        // Create ContentValues of what you want to insert
+//        // (you can use the createTaskValues TestUtilities function if you wish)
+//        ContentValues valuesData;
+//        for (int i = 0; i <= 10; i++) {
+//            valuesData = createTaskValues(listRowId, "task " + i);
+//            // Insert ContentValues into database and get a row ID back
+//            db.insert(Contract.TaskEntry.TABLE_NAME, null, valuesData);
+//        }
+//        // Query the database and receive a Cursor back
+//        db.close();
+//    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -133,9 +162,9 @@ public class MainActivityFragment extends Fragment implements View.OnClickListen
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_clear) {
-            SQLiteDatabase db = new DBHelper(getActivity()).getWritableDatabase();
             db.delete(Contract.PATH_TASKS, null, null);
-            c.requery();
+            db.delete(Contract.PATH_LISTS, null, null);
+            c = db.query(Contract.PATH_TASKS, mColumns, null, null, null, null, null);
             cursorAdapter.swapCursor(c);
             cursorAdapter.notifyDataSetChanged();
             db.close();

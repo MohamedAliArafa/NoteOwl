@@ -5,4 +5,10 @@
     <string name="pick_date">Pick Date</string>
     <string name="action_clear">clear</string>
     <string name="title_activity_new_task">NewTaskActivity</string>
+    <string name="what_is_to_be_done">What is to be done?</string>
+    <string name="enter_task_here">Enter Task Here</string>
+    <string name="date">Date</string>
+    <string name="task_details">Task details</string>
+    <string name="write_your_task_details_here">Write your task details here</string>
+    <string name="add_to_list">Add to List</string>
 </resources>

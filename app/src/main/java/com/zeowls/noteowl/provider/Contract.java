@@ -19,7 +19,7 @@ public class Contract {
         public static Uri CONTENT_URI = BASE_CONTENT.buildUpon().appendPath(PATH_TASKS).build();
         public static String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_TASKS;
         public static String TABLE_NAME = "tasks";
-        public static String COLUMN_NAME = "name";
+        public static String COLUMN_NAME = "task_name";
         public static String COLUMN_IS_FINISHED = "isFinished";
         public static String COLUMN_IS_REPEATED = "isRepeated";
         public static String COLUMN_IS_TIMED = "isTimed";
@@ -43,7 +43,7 @@ public class Contract {
         public static Uri CONTENT_URI = BASE_CONTENT.buildUpon().appendPath(PATH_LISTS).build();
         public static String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_LISTS;
         public static String TABLE_NAME = "lists";
-        public static String COLUMN_NAME = "name";
+        public static String COLUMN_NAME = "list_name";
         public static String COLUMN_TASKS_COUNT = "count";
         public static String COLUMN_IS_USER_DEFINED = "isUserDefined";
 

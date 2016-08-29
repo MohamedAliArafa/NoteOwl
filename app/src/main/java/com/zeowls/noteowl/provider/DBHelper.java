@@ -68,7 +68,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("ALTER TABLE IF EXISTS " + TaskEntry.TABLE_NAME);
-        db.execSQL("ALTER TABLE IF EXISTS " + ListEntry.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TaskEntry.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + ListEntry.TABLE_NAME);
         onCreate(db);
     }}
