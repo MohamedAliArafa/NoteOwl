@@ -42,11 +42,9 @@ public class DBHelper extends SQLiteOpenHelper {
                 TaskEntry.COLUMN_IS_REPEATED + " INTEGER NOT NULL DEFAULT 0 , " +
                 TaskEntry.COLUMN_IS_TIMED + " INTEGER NOT NULL DEFAULT 0 ," +
                 TaskEntry.COLUMN_IS_DATED + " INTEGER NOT NULL DEFAULT 0 ," +
-                TaskEntry.COLUMN_DAY + " INTEGER ," +
-                TaskEntry.COLUMN_MONTH + " INTEGER ," +
-                TaskEntry.COLUMN_YEAR + " INTEGER ," +
-                TaskEntry.COLUMN_HOUR + " INTEGER ," +
-                TaskEntry.COLUMN_MINUTE + " INTEGER ," +
+                TaskEntry.COLUMN_DATE + " INTEGER ," +
+                TaskEntry.COLUMN_TIME + " INTEGER ," +
+                TaskEntry.COLUMN_DETAILS + " TEXT ," +
                 TaskEntry.COLUMN_LIST_ID + " INTEGER NOT NULL," +
                 TaskEntry.COLUMN_REPEATED_PERIOD + " INTEGER ," +
                 TaskEntry.COLUMN_REPEATED_PERIOD_NUM + " INTEGER ," +

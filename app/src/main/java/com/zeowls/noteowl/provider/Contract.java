@@ -24,11 +24,9 @@ public class Contract {
         public static String COLUMN_IS_REPEATED = "isRepeated";
         public static String COLUMN_IS_TIMED = "isTimed";
         public static String COLUMN_IS_DATED = "isDated";
-        public static String COLUMN_DAY = "day";
-        public static String COLUMN_MONTH = "month";
-        public static String COLUMN_YEAR = "year";
-        public static String COLUMN_HOUR = "hour";
-        public static String COLUMN_MINUTE = "minute";
+        public static String COLUMN_DATE = "date";
+        public static String COLUMN_TIME = "time";
+        public static String COLUMN_DETAILS = "details";
         public static String COLUMN_LIST_ID = "listID";
         public static String COLUMN_REPEATED_PERIOD = "repeatPeriod";
         public static String COLUMN_REPEATED_PERIOD_NUM = "repeatPeriodNum";

@@ -2,10 +2,12 @@ package com.zeowls.noteowl;
 
 import android.app.Fragment;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -22,10 +25,12 @@ import android.widget.TextView;
 import com.zeowls.noteowl.provider.Contract;
 import com.zeowls.noteowl.provider.DBHelper;
 
+import java.text.SimpleDateFormat;
+
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends Fragment implements View.OnClickListener{
+public class MainActivityFragment extends Fragment implements View.OnClickListener {
 
 //    Button timePickerButton, datePickerButton;
 //    DatePicker datePicker;
@@ -33,7 +38,7 @@ public class MainActivityFragment extends Fragment implements View.OnClickListen
 
     private static final SQLiteQueryBuilder sTaskWithListNameQueryBuilder;
 
-    static{
+    static {
         sTaskWithListNameQueryBuilder = new SQLiteQueryBuilder();
 
         //This is an inner join which looks like
@@ -52,6 +57,7 @@ public class MainActivityFragment extends Fragment implements View.OnClickListen
     Cursor c;
     String[] mColumns = new String[]{
             Contract.TaskEntry.COLUMN_NAME,
+            Contract.TaskEntry.COLUMN_DATE,
             Contract.ListEntry.COLUMN_NAME,
             Contract.TaskEntry.COLUMN_IS_FINISHED,
             Contract.TaskEntry._ID
@@ -70,38 +76,88 @@ public class MainActivityFragment extends Fragment implements View.OnClickListen
         setHasOptionsMenu(true);
 
         db = new DBHelper(getActivity()).getWritableDatabase();
-//        timePickerButton = (Button) v.findViewById(R.id.time_picker_btn);
-//        datePickerButton = (Button) v.findViewById(R.id.date_picker_btn);
-//        datePicker = (DatePicker) v.findViewById(R.id.date_picker);
-//        timePicker = (TimePicker) v.findViewById(R.id.time_picker);
-//        timePickerButton.setOnClickListener(this);
-//        datePickerButton.setOnClickListener(this);
         mListView = (ListView) v.findViewById(R.id.list_view);
-//        testTaskTable();
         SQLiteDatabase db = new DBHelper(getActivity()).getWritableDatabase();
-        c = sTaskWithListNameQueryBuilder.query(db, null, null, null, null, null,null);
-//        c = db.query(Contract.PATH_TASKS, mColumns, null, null, null, null, null);
-        cursorAdapter = new SimpleCursorAdapter(getActivity(),
-                android.R.layout.simple_list_item_2, c, mColumns, new int[]{android.R.id.text1, android.R.id.text2});
+        c = sTaskWithListNameQueryBuilder.query(db, null, null, null, null, null, null);
+        cursorAdapter = new MySimpleCursorAdapter(getActivity(),
+                R.layout.home_list_item, c, mColumns, new int[]{R.id.tvTaskName, R.id.tvTaskDate, R.id.tvTaskList});
         mListView.setAdapter(cursorAdapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.d("Main", "Hello");
-                TextView tv = (TextView) view.findViewById(android.R.id.text2);
-                tv.setText("Clicked: " + tv.getText());
+
             }
         });
         db.close();
         return v;
     }
 
+    public static String getDate(Long milliSeconds, String dateFormat) {
+        SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
+        return formatter.format(milliSeconds);
+    }
+
+    private class MySimpleCursorAdapter extends SimpleCursorAdapter {
+        public MySimpleCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to) {
+            super(context, layout, c, from, to);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View v = super.getView(position, convertView, parent);
+
+            c.moveToPosition(position);
+            long date = c.getLong(c.getColumnIndex(Contract.TaskEntry.COLUMN_DATE));
+            if (date == 0){
+                v.findViewById(R.id.imRepeat).setVisibility(View.GONE);
+                v.findViewById(R.id.tvTaskDate).setVisibility(View.GONE);
+            }
+            return v;
+        }
+
+//        @Override
+//        public void setViewBinder(ViewBinder viewBinder) {
+//            ViewBinder vb = new ViewBinder() {
+//                @Override
+//                public boolean setViewValue(View view, Cursor cursor, int i) {
+//                    if (view.getId() == R.id.imRepeat) {
+//                        ImageView IV = (ImageView) view;
+//                        if (cursor.getLong(cursor.getColumnIndex(Contract.TaskEntry.COLUMN_DATE)) == 0) {
+//                            IV.setVisibility(View.GONE);
+//                        }
+//                    }
+//                    return false;
+//                }
+//            };
+//            super.setViewBinder(vb);
+//        }
+
+        @Override
+        public void setViewText(TextView v, String text) {
+            if (v.getId() == R.id.tvTaskDate) {
+                // Make sure it matches your time field
+                // You may want to try/catch with NumberFormatException in case `text` is not a numeric value
+                try {
+                    text = MainActivityFragment.getDate(Long.parseLong(text), "dd. MMM yyyy");
+                } catch (NumberFormatException e) {
+                    if (e == null){
+                        Log.e(this.getClass().getSimpleName(), "Null Exception");
+                    }else {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            v.setText(text);
+        }
+    }
+
     @Override
     public void onResume() {
         super.onResume();
-        c = sTaskWithListNameQueryBuilder.query(db, null, null, null, null, null,null);
+        c = sTaskWithListNameQueryBuilder.query(db, null, null, null, null, null, null);
         cursorAdapter.swapCursor(c);
         cursorAdapter.notifyDataSetChanged();
+        mListView.setAdapter(cursorAdapter);
     }
 
     @Override
@@ -115,43 +171,6 @@ public class MainActivityFragment extends Fragment implements View.OnClickListen
 //            newFragment.show(getFragmentManager(), "datePicker");
 //        }
     }
-
-//    static ContentValues createListValues() {
-//        // Create a new map of values, where column names are the keys
-//        ContentValues testValues = new ContentValues();
-//        testValues.put(Contract.ListEntry.COLUMN_NAME, "default");
-//
-//        return testValues;
-//    }
-//
-//    static ContentValues createTaskValues(long listRowId, String name) {
-//        ContentValues weatherValues = new ContentValues();
-//        weatherValues.put(Contract.TaskEntry.COLUMN_LIST_ID, listRowId);
-//        weatherValues.put(Contract.TaskEntry.COLUMN_NAME, name);
-//        return weatherValues;
-//    }
-//
-//
-//    public long insertList() {
-//        SQLiteDatabase db = new DBHelper(getActivity()).getWritableDatabase();
-//        ContentValues valuesData = createListValues();
-//        return db.insert(Contract.ListEntry.TABLE_NAME, null, valuesData);
-//    }
-//
-//    public void testTaskTable() {
-//        long listRowId = insertList();
-//        SQLiteDatabase db = new DBHelper(getActivity()).getWritableDatabase();
-//        // Create ContentValues of what you want to insert
-//        // (you can use the createTaskValues TestUtilities function if you wish)
-//        ContentValues valuesData;
-//        for (int i = 0; i <= 10; i++) {
-//            valuesData = createTaskValues(listRowId, "task " + i);
-//            // Insert ContentValues into database and get a row ID back
-//            db.insert(Contract.TaskEntry.TABLE_NAME, null, valuesData);
-//        }
-//        // Query the database and receive a Cursor back
-//        db.close();
-//    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

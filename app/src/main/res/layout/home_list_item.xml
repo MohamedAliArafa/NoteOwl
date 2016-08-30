@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -11,63 +12,62 @@
         android:layout_weight="0.29">
 
         <CheckBox
+            android:id="@+id/checkBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New CheckBox"
-            android:id="@+id/checkBox"
-            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:layout_marginTop="10dp" />
 
         <TextView
+            android:id="@+id/tvTaskName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
-            android:id="@+id/tvTaskName"
             android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/checkBox"
+            android:layout_marginTop="10dp"
             android:layout_toEndOf="@+id/checkBox"
-            android:layout_marginTop="10dp" />
+            android:layout_toRightOf="@+id/checkBox"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            tools:text="Medium Text" />
+
         <LinearLayout
+            android:id="@+id/linearLayoutDateView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/linearLayoutDateView"
-            android:layout_below="@+id/checkBox"
             android:layout_alignLeft="@+id/tvTaskName"
             android:layout_alignStart="@+id/tvTaskName"
-            android:layout_marginTop="5dp">
+            android:layout_below="@+id/tvTaskName"
+            android:orientation="horizontal">
+
             <TextView
+                android:id="@+id/tvTaskDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Small Text"
-                android:id="@+id/tvTaskDate"
-                android:layout_marginTop="5dp" />
+                tools:text="Small Text"/>
 
             <ImageView
+                android:id="@+id/imRepeat"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:id="@+id/imageView"
-                android:src="@drawable/ic_action_av_repeat"
-                android:layout_marginTop="5dp" />
+                android:layout_marginTop="5dp"
+                android:src="@drawable/ic_action_av_repeat" />
 
 
         </LinearLayout>
 
 
-
         <TextView
+            android:id="@+id/tvTaskList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Small Text"
-            android:id="@+id/tvTaskList"
-            android:layout_below="@+id/linearLayoutDateView"
             android:layout_alignLeft="@+id/linearLayoutDateView"
-            android:layout_alignStart="@+id/linearLayoutDateView" />
+            android:layout_alignStart="@+id/linearLayoutDateView"
+            android:layout_below="@+id/linearLayoutDateView"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            tools:text="Small Text" />
     </RelativeLayout>
 
 </LinearLayout>
