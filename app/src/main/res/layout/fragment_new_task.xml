@@ -18,7 +18,7 @@
         android:layout_alignParentRight="true"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_dialog_email" />
+        android:src="@drawable/ic_action_action_done" />
 
 
     <TextView
@@ -71,7 +71,7 @@
         android:textColor="#212121" />
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
+        android:id="@+id/linearLayoutDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView2"
@@ -92,7 +92,31 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:padding="5dp"
-            android:src="@android:drawable/ic_menu_today" />
+            android:src="@drawable/ic_action_editor_insert_invitation" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linearLayoutTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linearLayoutDate"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/editTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="6"
+            android:focusable="false"
+            android:textColorHint="#757575" />
+
+        <ImageView
+            android:id="@+id/btnTimePicker"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:padding="5dp"
+            android:src="@drawable/ic_action_action_alarm" />
     </LinearLayout>
 
 
@@ -102,7 +126,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/linearLayout2"
+        android:layout_below="@+id/linearLayoutTime"
         android:layout_marginTop="16dp"
         android:text="@string/task_details"
         android:textAppearance="?android:attr/textAppearanceMedium"
